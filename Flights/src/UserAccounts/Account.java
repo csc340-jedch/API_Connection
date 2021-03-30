@@ -8,13 +8,16 @@ public class Account implements AccountInterface {
     Map<String, ArrayList> accountInformation = new HashMap<String, ArrayList>();
     public static String ACTIVE_ACCOUNT = "1";
     public static String INACTIVE_ACCOUNT = "1";
+    public static final int ACCOUNT_STATUS = 8;
+    public static final int PASSWORD = 0;
+    public static final int TEMP_USERNAME = 0;
 
         public void createAccount(){
         //Input contents in this order: userName, password, Name, Email, Phone, Birthday, Gender, Location
         ArrayList<String> contents = getData();
 
-        String userName = contents.get(0);
-        contents.remove(0); //remove username to use as the key
+        String userName = contents.get(TEMP_USERNAME);
+        contents.remove(TEMP_USERNAME); //remove username to use as the key
 
         inputData(userName, contents);
 
@@ -53,26 +56,26 @@ public class Account implements AccountInterface {
         accountInformation.put(userName, contents);
     }
 
-    public ArrayList login(){
+    public ArrayList login() throws InvalidPasswordException, InactiveAccountException {
         String username = in.nextLine().toLowerCase();
         String password = in.nextLine();
 
        ArrayList getAccountInformation = accountInformation.get(username);
 
-        if (getAccountInformation.get(8).equals(ACTIVE_ACCOUNT)) {
-            if (getAccountInformation.get(0).equals(password)) {
+        if (getAccountInformation.get(ACCOUNT_STATUS).equals(ACTIVE_ACCOUNT)) {
+            if (getAccountInformation.get(PASSWORD).equals(password)) {
                 return getAccountInformation;
             }
-            return null; //FIX THIS WITH EXCEPTION
+            throw new InvalidPasswordException("Incorrect password.");
         }
-           return null; //FIX THIS WITH EXCEPTION
+        throw new InactiveAccountException("This account is Inactive");
        }
 
 
     public void deleteAccount() {
         String username = in.nextLine().toLowerCase();
             ArrayList work = accountInformation.get(username);
-            work.remove(8);
+            work.remove(ACCOUNT_STATUS);
             work.add(INACTIVE_ACCOUNT);
         System.out.println("Account deleted.");
     }
