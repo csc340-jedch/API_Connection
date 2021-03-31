@@ -1,0 +1,2 @@
+# Ignore the `out` folder as those are built files.
+Flights/out/
