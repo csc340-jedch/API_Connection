@@ -6,7 +6,7 @@ public interface AccountInterface {
 
     public void createAccount();
 
-    public ArrayList login();
+    public ArrayList login() throws InvalidPasswordException, InactiveAccountException;
 
     public void deleteAccount();
 
