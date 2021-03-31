@@ -77,12 +77,14 @@ public class GetFlightData implements FlightDataInterface{
     public String getCarrier(String _departureDate, String _originAirport) throws JSONException, NotDirectFlightException {
         JSONObject input = findFlightInformation(_departureDate,_originAirport);
         JSONArray carrierInfoArray = input.getJSONArray("Carriers");
-        String carrierId;
-        for(int i = 0; i <= carrierInfoArray.length(); i++) {
+        System.out.println(input.toString());
+        int carrierId;
+        for(int i = 0; i < carrierInfoArray.length(); i++) {
             JSONObject carrierInfoObject = carrierInfoArray.getJSONObject(i);
             String carrierID = carrierInfoObject.getString("CarrierId");
             int carrierIDInteger = Integer.parseInt(carrierID);
-            if (getCarrierId(_departureDate,_originAirport) == carrierIDInteger){
+            carrierId = getCarrierId(_departureDate,_originAirport);
+            if (carrierId == carrierIDInteger){
                 return carrierInfoObject.getString("Name");
             }
 
@@ -95,7 +97,7 @@ public class GetFlightData implements FlightDataInterface{
         JSONObject input = findFlightInformation(_departureDate,_originAirport);
         JSONArray quotesInfoArray = input.getJSONArray("Quotes");
         String direct;
-        for(int i = 1; i < quotesInfoArray.length(); i++) {
+        for(int i = 0; i < quotesInfoArray.length(); i++) {
             JSONObject quotesInfoObject = quotesInfoArray.getJSONObject(i);
             direct = quotesInfoObject.getString("Direct").toLowerCase();
             if (direct == "true"){
@@ -113,7 +115,7 @@ public class GetFlightData implements FlightDataInterface{
         int quoteNumberInt = isDirectFlight(_departureDate,_originAirport);
         JSONObject input = findFlightInformation(_departureDate,_originAirport);
         JSONArray quoteInfoArray = input.getJSONArray("Quotes");
-        for(int i = 1; i < quoteNumberInt; i++) {
+        for(int i = 0; i < quoteInfoArray.length(); i++) {
             JSONObject carrierInfoObject = quoteInfoArray.getJSONObject(i);
             return carrierInfoObject.getString("MinPrice");
 
@@ -127,7 +129,7 @@ public class GetFlightData implements FlightDataInterface{
         JSONObject input = findFlightInformation(_departureDate,_originAirport);
         JSONArray quoteInfoArray = input.getJSONArray("Quotes");
         String idWithoutBrackets = "";
-        for(int i = 1; i <= quoteNumberInt; i++) {
+        for(int i = 0; i < quoteNumberInt; i++) {
             JSONObject carrierInfoObject = quoteInfoArray.getJSONObject(i);
             JSONObject outboundLeg = carrierInfoObject.getJSONObject("OutboundLeg");
             String idWithBrackets = outboundLeg.getString("CarrierIds");
