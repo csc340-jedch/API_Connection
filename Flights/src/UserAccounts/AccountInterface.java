@@ -1,13 +1,16 @@
 package UserAccounts;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public interface AccountInterface {
 
-    public void createAccount();
+    public User login() throws InvalidPasswordException, InactiveAccountException;
 
-    public ArrayList login() throws InvalidPasswordException, InactiveAccountException;
+    void deleteAccount() throws InactiveAccountException, InvalidPasswordException;
 
-    public void deleteAccount();
+    private User searchAccount() throws InactiveAccountException, InvalidPasswordException {
+        return null;
+    }
 
 }
